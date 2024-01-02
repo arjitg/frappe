@@ -2,8 +2,8 @@ from __future__ import unicode_literals
 from PIL import Image, ImageDraw
 from hashlib import md5
 import base64
-import random
 from six import StringIO
+import secrets
 
 GRID_SIZE = 5
 BORDER_SIZE = 20
@@ -34,7 +34,7 @@ class Identicon(object):
 		remaining bytes are used to create the drawing
 		"""
 		# color = (self.hash & 0xff, self.hash >> 8 & 0xff, self.hash >> 16 & 0xff)
-		color = random.choice((
+		color = secrets.SystemRandom().choice((
 			(254, 196, 197),
 			(253, 138, 139),
 			(254, 231, 206),
