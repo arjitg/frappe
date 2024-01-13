@@ -7,10 +7,10 @@ from __future__ import unicode_literals
 import frappe
 from frappe import _
 import json
-import random
 from frappe.model.document import Document
 from six import iteritems, string_types
 from frappe.utils.user import UserPermissions
+import secrets
 
 class DesktopIcon(Document):
 	def validate(self):
@@ -138,7 +138,7 @@ def add_user_icon(_doctype, _report=None, label=None, link=None, type='link', st
 
 		if not module_icon:
 			module_icon = frappe._dict()
-			opts = random.choice(palette)
+			opts = secrets.SystemRandom().choice(palette)
 			module_icon.color = opts[0]
 			module_icon.reverse = 0 if (len(opts) > 1) else 1
 

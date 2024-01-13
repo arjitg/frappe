@@ -16,6 +16,7 @@ from six.moves.urllib.parse import quote
 from six import text_type, string_types
 import io
 from gzip import GzipFile
+import secrets
 
 default_fields = ['doctype', 'name', 'owner', 'creation', 'modified', 'modified_by',
 	'parent', 'parentfield', 'parenttype', 'idx', 'docstatus']
@@ -138,8 +139,7 @@ def split_emails(txt):
 def random_string(length):
 	"""generate a random string"""
 	import string
-	from random import choice
-	return ''.join([choice(string.ascii_letters + string.digits) for i in range(length)])
+	return ''.join([secrets.SystemRandom().choice(string.ascii_letters + string.digits) for i in range(length)])
 
 
 def has_gravatar(email):

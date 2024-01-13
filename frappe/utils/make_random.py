@@ -1,7 +1,8 @@
 from __future__ import unicode_literals
-import frappe, random
+import frappe
 from six.moves import range
 from six import string_types
+import secrets
 
 settings = frappe._dict(
 	prob = {
@@ -12,7 +13,7 @@ settings = frappe._dict(
 def add_random_children(doc, fieldname, rows, randomize, unique=None):
 	nrows = rows
 	if rows > 1:
-		nrows = random.randrange(1, rows)
+		nrows = secrets.SystemRandom().randrange(1, rows)
 
 	for i in range(nrows):
 		d = {}
@@ -20,7 +21,7 @@ def add_random_children(doc, fieldname, rows, randomize, unique=None):
 			if isinstance(val[0], string_types):
 				d[key] = get_random(*val)
 			else:
-				d[key] = random.randrange(*val)
+				d[key] = secrets.SystemRandom().randrange(*val)
 
 		if unique:
 			if not doc.get(fieldname, {unique:d[unique]}):
@@ -49,7 +50,7 @@ def get_random(doctype, filters=None, doc=False):
 		return out
 
 def can_make(doctype):
-	return random.random() < settings.prob.get(doctype, settings.prob["default"])["make"]
+	return secrets.SystemRandom().random() < settings.prob.get(doctype, settings.prob["default"])["make"]
 
 def how_many(doctype):
-	return random.randrange(*settings.prob.get(doctype, settings.prob["default"])["qty"])
+	return secrets.SystemRandom().randrange(*settings.prob.get(doctype, settings.prob["default"])["qty"])
