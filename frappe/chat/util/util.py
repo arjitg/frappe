@@ -108,7 +108,7 @@ def get_emojis():
 	emojis = redis.hget('frappe_emojis', 'emojis')
 
 	if not emojis:
-		resp  = requests.get('http://git.io/frappe-emoji')
+		resp  = requests.get('http://git.io/frappe-emoji', timeout=60)
 		if resp.ok:
 			emojis = resp.json()
 			redis.hset('frappe_emojis', 'emojis', emojis)
