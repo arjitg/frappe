@@ -3,6 +3,8 @@
 
 from __future__ import unicode_literals
 from frappe import _
+from security import safe_requests
+
 """
 record of files
 
@@ -18,14 +20,12 @@ import hashlib
 import mimetypes
 import io
 import shutil
-import requests
 import requests.exceptions
 import imghdr
 
 from frappe.utils import get_hook_method, get_files_path, random_string, encode, cstr, call_hook_method, cint
 from frappe import _
 from frappe import conf
-from frappe.utils.nestedset import NestedSet
 from frappe.model.document import Document
 from frappe.utils import strip
 from PIL import Image, ImageOps
@@ -671,7 +671,7 @@ def get_local_image(file_url):
 def get_web_image(file_url):
 	# download
 	file_url = frappe.utils.get_url(file_url)
-	r = requests.get(file_url, stream=True)
+	r = safe_requests.get(file_url, stream=True)
 	try:
 		r.raise_for_status()
 	except requests.exceptions.HTTPError as e:

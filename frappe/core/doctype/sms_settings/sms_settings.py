@@ -9,8 +9,8 @@ from frappe import _, throw, msgprint
 from frappe.utils import nowdate
 
 from frappe.model.document import Document
-import six
 from six import string_types
+from security import safe_requests
 
 class SMSSettings(Document):
 	pass
@@ -106,7 +106,7 @@ def send_request(gateway_url, params, headers=None, use_post=False):
 	if use_post:
 		response = requests.post(gateway_url, headers=headers, data=params)
 	else:
-		response = requests.get(gateway_url, headers=headers, params=params)
+		response = safe_requests.get(gateway_url, headers=headers, params=params)
 	response.raise_for_status()
 	return response.status_code
 

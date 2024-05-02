@@ -4,8 +4,6 @@
 from __future__ import print_function, unicode_literals
 
 import re
-
-import requests
 import requests.exceptions
 from jinja2.exceptions import TemplateSyntaxError
 
@@ -18,6 +16,7 @@ from frappe.website.router import resolve_route
 from frappe.website.utils import (extract_title, find_first_image, get_comment_list,
 	get_html_content_based_on_type)
 from frappe.website.website_generator import WebsiteGenerator
+from security import safe_requests
 
 
 class WebPage(WebsiteGenerator):
@@ -166,7 +165,7 @@ def check_broken_links():
 		for link in re.findall('href=["\']([^"\']*)["\']', p.main_section):
 			if link.startswith("http"):
 				try:
-					res = requests.get(link)
+					res = safe_requests.get(link)
 				except requests.exceptions.SSLError:
 					res = frappe._dict({"status_code": "SSL Error"})
 				except requests.exceptions.ConnectionError:
