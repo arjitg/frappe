@@ -68,7 +68,7 @@ class TestOAuth20(unittest.TestCase):
 
 		# Request for bearer token
 		token_response = requests.post( frappe.get_site_config().host_name +
-			"/api/method/frappe.integrations.oauth2.get_token", data=payload, headers=headers)
+			"/api/method/frappe.integrations.oauth2.get_token", data=payload, headers=headers, timeout=60)
 
 		# Parse bearer token json
 		bearer_token = token_response.json()
@@ -83,7 +83,7 @@ class TestOAuth20(unittest.TestCase):
 
 		# Revoke Token
 		revoke_token_response = requests.post(frappe.get_site_config().host_name + "/api/method/frappe.integrations.oauth2.revoke_token",
-			data="token=" + bearer_token.get("access_token"))
+			data="token=" + bearer_token.get("access_token"), timeout=60)
 		self.assertTrue(revoke_token_response.status_code == 200)
 
 		# Check revoked token
@@ -101,7 +101,7 @@ class TestOAuth20(unittest.TestCase):
 
 		# Request for bearer token
 		token_response = requests.post( frappe.get_site_config().host_name +
-			"/api/method/frappe.integrations.oauth2.get_token", data=payload, headers=headers)
+			"/api/method/frappe.integrations.oauth2.get_token", data=payload, headers=headers, timeout=60)
 
 		# Parse bearer token json
 		bearer_token = token_response.json()
@@ -166,6 +166,6 @@ def check_valid_openid_response(access_token=None):
 
 	# check openid for email test@example.com
 	openid_response = requests.get(frappe.get_site_config().host_name +
-		"/api/method/frappe.integrations.oauth2.openid_profile", headers=headers)
+		"/api/method/frappe.integrations.oauth2.openid_profile", headers=headers, timeout=60)
 
 	return True if openid_response.status_code == 200 else False

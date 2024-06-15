@@ -65,7 +65,7 @@ class TestFrappeOAuth2Client(unittest.TestCase):
 
 		# Request for bearer token
 		token_response = requests.post( frappe.get_site_config().host_name +
-			"/api/method/frappe.integrations.oauth2.get_token", data=payload, headers=headers)
+			"/api/method/frappe.integrations.oauth2.get_token", data=payload, headers=headers, timeout=60)
 
 		# Parse bearer token json
 		bearer_token = token_response.json()

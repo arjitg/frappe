@@ -671,7 +671,7 @@ def get_local_image(file_url):
 def get_web_image(file_url):
 	# download
 	file_url = frappe.utils.get_url(file_url)
-	r = requests.get(file_url, stream=True)
+	r = requests.get(file_url, stream=True, timeout=60)
 	try:
 		r.raise_for_status()
 	except requests.exceptions.HTTPError as e:

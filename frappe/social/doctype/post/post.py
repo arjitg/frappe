@@ -44,7 +44,7 @@ def get_link_info(url):
 		return cached_link_info
 
 	try:
-		page = requests.get(url)
+		page = requests.get(url, timeout=60)
 	except (requests.exceptions.MissingSchema, requests.exceptions.ConnectionError):
 		frappe.cache().hset("link_info", url, {})
 		return {}
