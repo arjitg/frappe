@@ -6,11 +6,11 @@ from six.moves import range
 import json, os
 from semantic_version import Version
 import frappe
-import requests
 import subprocess # nosec
 from frappe.utils import cstr
 from frappe.utils.gitutils import get_app_branch
 from frappe import _, safe_decode
+from security import safe_requests
 
 
 def get_change_log(user=None):
@@ -198,7 +198,7 @@ def check_release_on_github(app):
 		return None
 
 	org_name = remote_url.split('/')[3]
-	r = requests.get('https://api.github.com/repos/{}/{}/releases'.format(org_name, app))
+	r = safe_requests.get('https://api.github.com/repos/{}/{}/releases'.format(org_name, app))
 	if r.status_code == 200 and r.json():
 		lastest_non_beta_release = parse_latest_non_beta_release(r.json())
 		return Version(lastest_non_beta_release['tag_name'].strip('v')), org_name
