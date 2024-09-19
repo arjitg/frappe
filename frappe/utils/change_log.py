@@ -198,7 +198,7 @@ def check_release_on_github(app):
 		return None
 
 	org_name = remote_url.split('/')[3]
-	r = requests.get('https://api.github.com/repos/{}/{}/releases'.format(org_name, app))
+	r = requests.get('https://api.github.com/repos/{}/{}/releases'.format(org_name, app), timeout=60)
 	if r.status_code == 200 and r.json():
 		lastest_non_beta_release = parse_latest_non_beta_release(r.json())
 		return Version(lastest_non_beta_release['tag_name'].strip('v')), org_name
