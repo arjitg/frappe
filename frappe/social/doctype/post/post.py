@@ -7,6 +7,7 @@ import frappe
 import requests
 from bs4 import BeautifulSoup
 from frappe.model.document import Document
+from security import safe_requests
 
 class Post(Document):
 	def on_update(self):
@@ -44,7 +45,7 @@ def get_link_info(url):
 		return cached_link_info
 
 	try:
-		page = requests.get(url)
+		page = safe_requests.get(url)
 	except (requests.exceptions.MissingSchema, requests.exceptions.ConnectionError):
 		frappe.cache().hset("link_info", url, {})
 		return {}
