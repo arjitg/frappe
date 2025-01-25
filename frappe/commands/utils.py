@@ -11,6 +11,7 @@ from frappe.utils.response import json_handler
 from coverage import Coverage
 import cProfile, pstats
 from six import StringIO
+from security import safe_command
 
 @click.command('build')
 @click.option('--app', help='Build assets for app')
@@ -384,7 +385,7 @@ def postgres(context):
 	frappe.init(site=site)
 	# This is assuming you're within the bench instance.
 	psql = find_executable('psql')
-	subprocess.run([ psql, '-d', frappe.conf.db_name])
+	safe_command.run(subprocess.run, [ psql, '-d', frappe.conf.db_name])
 
 @click.command('jupyter')
 @pass_context
