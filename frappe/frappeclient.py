@@ -3,6 +3,7 @@ import requests
 import json
 import frappe
 from six import iteritems, string_types
+from security import safe_requests
 
 '''
 FrappeClient is a library that helps you connect with other frappe systems
@@ -319,7 +320,7 @@ class FrappeOAuth2Client(FrappeClient):
 		self.url = url
 
 	def get_request(self, params):
-		res = requests.get(self.url, params=self.preprocess(params), headers=self.headers, verify=self.verify)
+		res = safe_requests.get(self.url, params=self.preprocess(params), headers=self.headers, verify=self.verify)
 		res = self.post_process(res)
 		return res
 
@@ -332,7 +333,7 @@ class OAuth2Session():
 	def __init__(self, headers):
 		self.headers = headers
 	def get(self, url, params, verify):
-		res = requests.get(url, params=params, headers=self.headers, verify=verify)
+		res = safe_requests.get(url, params=params, headers=self.headers, verify=verify)
 		return res
 	def post(self, url, data, verify):
 		res = requests.post(url, data=data, headers=self.headers, verify=verify)
