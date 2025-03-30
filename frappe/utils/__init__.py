@@ -155,7 +155,7 @@ def has_gravatar(email):
 
 	gravatar_url = "https://secure.gravatar.com/avatar/{hash}?d=404&s=200".format(hash=hexdigest)
 	try:
-		res = requests.get(gravatar_url)
+		res = requests.get(gravatar_url, timeout=60)
 		if res.status_code==200:
 			return gravatar_url
 		else:

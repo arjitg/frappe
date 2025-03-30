@@ -166,7 +166,7 @@ def check_broken_links():
 		for link in re.findall('href=["\']([^"\']*)["\']', p.main_section):
 			if link.startswith("http"):
 				try:
-					res = requests.get(link)
+					res = requests.get(link, timeout=60)
 				except requests.exceptions.SSLError:
 					res = frappe._dict({"status_code": "SSL Error"})
 				except requests.exceptions.ConnectionError:
