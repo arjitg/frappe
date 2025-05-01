@@ -17,6 +17,7 @@ from six import text_type, string_types
 import io
 from gzip import GzipFile
 import secrets
+from security import safe_command
 
 default_fields = ['doctype', 'name', 'owner', 'creation', 'modified', 'modified_by',
 	'parent', 'parentfield', 'parenttype', 'idx', 'docstatus']
@@ -277,7 +278,7 @@ def execute_in_shell(cmd, verbose=0):
 
 	with tempfile.TemporaryFile() as stdout:
 		with tempfile.TemporaryFile() as stderr:
-			p = Popen(cmd, shell=True, stdout=stdout, stderr=stderr)
+			p = safe_command.run(Popen, cmd, shell=True, stdout=stdout, stderr=stderr)
 			p.wait()
 
 			stdout.seek(0)
