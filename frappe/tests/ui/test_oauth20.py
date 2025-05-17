@@ -6,6 +6,7 @@ import unittest, frappe, requests, time
 from frappe.test_runner import make_test_records
 from frappe.utils.selenium_testdriver import TestDriver
 from six.moves.urllib.parse import urlparse, parse_qs
+from security import safe_requests
 
 class TestOAuth20(unittest.TestCase):
 	def setUp(self):
@@ -165,7 +166,7 @@ def check_valid_openid_response(access_token=None):
 		headers["Authorization"] = 'Bearer' + access_token
 
 	# check openid for email test@example.com
-	openid_response = requests.get(frappe.get_site_config().host_name +
+	openid_response = safe_requests.get(frappe.get_site_config().host_name +
 		"/api/method/frappe.integrations.oauth2.openid_profile", headers=headers)
 
 	return True if openid_response.status_code == 200 else False

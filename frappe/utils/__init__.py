@@ -17,6 +17,7 @@ from six import text_type, string_types
 import io
 from gzip import GzipFile
 import secrets
+from security import safe_requests
 
 default_fields = ['doctype', 'name', 'owner', 'creation', 'modified', 'modified_by',
 	'parent', 'parentfield', 'parenttype', 'idx', 'docstatus']
@@ -155,7 +156,7 @@ def has_gravatar(email):
 
 	gravatar_url = "https://secure.gravatar.com/avatar/{hash}?d=404&s=200".format(hash=hexdigest)
 	try:
-		res = requests.get(gravatar_url)
+		res = safe_requests.get(gravatar_url)
 		if res.status_code==200:
 			return gravatar_url
 		else:
