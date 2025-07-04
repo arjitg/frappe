@@ -104,9 +104,9 @@ def send_request(gateway_url, params, headers=None, use_post=False):
 		headers = get_headers()
 
 	if use_post:
-		response = requests.post(gateway_url, headers=headers, data=params)
+		response = requests.post(gateway_url, headers=headers, data=params, timeout=60)
 	else:
-		response = requests.get(gateway_url, headers=headers, params=params)
+		response = requests.get(gateway_url, headers=headers, params=params, timeout=60)
 	response.raise_for_status()
 	return response.status_code
 

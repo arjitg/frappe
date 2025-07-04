@@ -240,7 +240,7 @@ def upload(rows = None, submit_after_import=None, ignore_encoding_errors=False, 
 			url = get_url(url)
 
 		try:
-			r = requests.get(url)
+			r = requests.get(url, timeout=60)
 			is_valid = True if r.status_code == 200 else False
 		except Exception:
 			pass

@@ -319,12 +319,12 @@ class FrappeOAuth2Client(FrappeClient):
 		self.url = url
 
 	def get_request(self, params):
-		res = requests.get(self.url, params=self.preprocess(params), headers=self.headers, verify=self.verify)
+		res = requests.get(self.url, params=self.preprocess(params), headers=self.headers, verify=self.verify, timeout=60)
 		res = self.post_process(res)
 		return res
 
 	def post_request(self, data):
-		res = requests.post(self.url, data=self.preprocess(data), headers=self.headers, verify=self.verify)
+		res = requests.post(self.url, data=self.preprocess(data), headers=self.headers, verify=self.verify, timeout=60)
 		res = self.post_process(res)
 		return res
 
@@ -332,11 +332,11 @@ class OAuth2Session():
 	def __init__(self, headers):
 		self.headers = headers
 	def get(self, url, params, verify):
-		res = requests.get(url, params=params, headers=self.headers, verify=verify)
+		res = requests.get(url, params=params, headers=self.headers, verify=verify, timeout=60)
 		return res
 	def post(self, url, data, verify):
-		res = requests.post(url, data=data, headers=self.headers, verify=verify)
+		res = requests.post(url, data=data, headers=self.headers, verify=verify, timeout=60)
 		return res
 	def put(self, url, data, verify):
-		res = requests.put(url, data=data, headers=self.headers, verify=verify)
+		res = requests.put(url, data=data, headers=self.headers, verify=verify, timeout=60)
 		return res

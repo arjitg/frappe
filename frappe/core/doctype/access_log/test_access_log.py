@@ -155,7 +155,7 @@ class TestAccessLog(unittest.TestCase):
 		private_file_link = get_site_url(frappe.local.site) + new_private_file.file_url
 
 		try:
-			request = requests.post(private_file_link, headers=self.header)
+			request = requests.post(private_file_link, headers=self.header, timeout=60)
 			last_doc = frappe.get_last_doc('Access Log')
 
 			if request.status_code == 403:

@@ -48,7 +48,7 @@ class GoogleDrive(Document):
 		}
 
 		try:
-			r = requests.post(get_auth_url(), data=data).json()
+			r = requests.post(get_auth_url(), data=data, timeout=60).json()
 		except requests.exceptions.HTTPError:
 			button_label = frappe.bold(_("Allow Google Drive Access"))
 			frappe.throw(_("Something went wrong during the token generation. Click on {0} to generate a new one.").format(button_label))
@@ -80,7 +80,7 @@ def authorize_access(reauthorize=None):
 				"redirect_uri": redirect_uri,
 				"grant_type": "authorization_code"
 			}
-			r = requests.post(get_auth_url(), data=data).json()
+			r = requests.post(get_auth_url(), data=data, timeout=60).json()
 
 			if "refresh_token" in r:
 				frappe.db.set_value("Google Drive", google_drive.name, "refresh_token", r.get("refresh_token"))
