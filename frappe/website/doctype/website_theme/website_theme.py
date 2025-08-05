@@ -6,6 +6,7 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 from os.path import join as join_path, exists as path_exists
+from security import safe_command
 
 class WebsiteTheme(Document):
 	def validate(self):
@@ -63,7 +64,7 @@ class WebsiteTheme(Document):
 		content = content.replace('\n', '\\n')
 		command = ['node', 'generate_bootstrap_theme.js', output_path, content]
 
-		process = Popen(command, cwd=frappe.get_app_path('frappe', '..'), stdout=PIPE, stderr=PIPE)
+		process = safe_command.run(Popen, command, cwd=frappe.get_app_path('frappe', '..'), stdout=PIPE, stderr=PIPE)
 
 		stderr = process.communicate()[1]
 
